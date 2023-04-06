@@ -3,9 +3,11 @@ import { toast } from 'react-toastify';
 import { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
+import Spinner from "../components/Spinner";
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { register, reset } from '../features/auth/authSlice';
+
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -21,7 +23,7 @@ function Register() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { user, isError, isSuccess, message} = useSelector(state => state.auth)
+  const { user, isError, isSuccess, isLoading, message} = useSelector(state => state.auth)
 
   useEffect(() => {
     if(isError){
@@ -59,6 +61,10 @@ function Register() {
     }
     // console.log('submited')
   };
+
+  if(isLoading) {
+    <Spinner />
+  }
 
   return (
     <>

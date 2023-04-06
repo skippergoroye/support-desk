@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import  { useNavigate } from 'react-router-dom'
+import Spinner from "../components/Spinner";
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { login, reset } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
+
 
 
 function Register() {
@@ -19,7 +21,7 @@ function Register() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { user, isError, isSuccess, message } = useSelector(state => state.auth)
+  const { user, isError, isSuccess, isLoading, message } = useSelector(state => state.auth)
 
   useEffect(() => {
     if(isError){
@@ -53,6 +55,10 @@ function Register() {
     dispatch(login(userData))
     // console.log('submited')
   };
+
+  if(isLoading){
+    <Spinner />
+  }
 
   return (
     <>
