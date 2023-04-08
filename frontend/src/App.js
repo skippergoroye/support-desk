@@ -28,7 +28,7 @@ function App() {
             </Route>
             <Route path="/tickets" element={<Tickets /> } />
           </Routes>
-        </div>
+        </div>       
       </Router>
     </> 
   );
