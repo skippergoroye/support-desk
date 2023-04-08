@@ -3,8 +3,8 @@ import ticketService  from './ticketService'
 
 
 const initialState = {
-    tickets: [],
-    ticket: {},
+    tickets: [],   // array of tickets containing man ticket
+    ticket: {},    // conatines just a single ticket
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -22,7 +22,6 @@ export const createTicket = createAsyncThunk (
         // console.log(ticketData)
         const token = thunkAPI.getState().auth.user.token
         return await ticketService.createTicket(ticketData, token)
-        
       } catch (error) {
         const message =
           (error.response && error.response.data && error.response.data.message) ||
@@ -31,11 +30,34 @@ export const createTicket = createAsyncThunk (
         return thunkAPI.rejectWithValue(message);
       }
     }
-  );
+);
 
 
 
-const ticketSlice = createSlice ({
+
+// Get user Tickets
+export const getTickets = createAsyncThunk (
+  "ticket/getAllTickets",
+  async (_, thunkAPI) => {
+    try {
+      // console.log(thunkAPI)
+      // console.log(ticketData)
+      const token = thunkAPI.getState().auth.user.token
+      return await ticketService.getTickets(token)
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+
+
+
+export const ticketSlice = createSlice ({
     name: 'ticket',
     initialState,
     reducers: {
@@ -49,14 +71,28 @@ const ticketSlice = createSlice ({
         .addCase(createTicket.fulfilled, (state, action) => {
           state.isLoading = false
           state.isSuccess = true
-          state.tickets = action.payload
-          // console.log(action)
-          // console.log(action.payload)
         })
         .addCase(createTicket.rejected, (state, action) => {
           state.isLoading = false
           state.isError = true
           state.message = action.payload
+          // console.log(action)
+          // console.log(action.payload)
+        })
+        .addCase(getTickets.pending, (state) => {
+          state.isLoading = true
+        })
+        .addCase(getTickets.fulfilled, (state, action) => {
+          state.isLoading = false
+          state.isSuccess = true
+          state.tickets = action.payload
+        })
+        .addCase(getTickets.rejected, (state, action) => {
+          state.isLoading = false
+          state.isError = true
+          state.message = action.payload
+          // console.log(action)
+          // console.log(action.payload)
         })
 
     }

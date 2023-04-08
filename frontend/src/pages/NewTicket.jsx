@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
-import BackButton from "../components/BackButton";
+import BackButton  from "../components/BackButton";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ const NewTicket = () => {
 
   const [name] = useState(user.name);
   const [email] = useState(user.email);
-  const [product, setProduct] = useState('iphone');
+  const [product, setProduct] = useState('');
   const [description, setDescription] = useState("");
 
   const dispatch = useDispatch()
