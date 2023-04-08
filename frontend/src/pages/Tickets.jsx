@@ -36,8 +36,8 @@ const Tickets = () => {
             <div>Status</div>
             <div></div>
         </div>
-        {tickets && tickets.map((item)=>(
-            <TicketItem key={item._id} item={item} />
+        {tickets && tickets.map((ticket)=>(
+            <TicketItem key={ticket._id} ticket={ticket} />
         ))}
     </div>
     </>

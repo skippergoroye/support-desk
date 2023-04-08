@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Tickets from './pages/Tickets';
+import Ticket from './pages/Ticket'
 
 
 
@@ -30,6 +31,10 @@ function App() {
 
             <Route path='/tickets' element={<PrivateRoute/>}>
                 <Route path='/tickets' element={<Tickets/>}/>
+            </Route>
+
+            <Route path='/ticket/:ticketID' element={<PrivateRoute/>}>
+                <Route path='/ticket/:ticketID' element={<Ticket/>}/>
             </Route>
   
           </Routes>
