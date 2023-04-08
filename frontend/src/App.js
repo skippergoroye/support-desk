@@ -26,15 +26,15 @@ function App() {
             <Route path="/register" element={<Register />} />
             
             <Route path='/new-ticket' element={<PrivateRoute/>}>
-                <Route path='/new-ticket' element={<Newticket/>}/>
+                <Route path='/new-ticket' element={<Newticket/>} />
             </Route>
 
             <Route path='/tickets' element={<PrivateRoute/>}>
-                <Route path='/tickets' element={<Tickets/>}/>
+                <Route path='/tickets' element={<Tickets/>} />
             </Route>
 
-            <Route path='/ticket/:ticketID' element={<PrivateRoute/>}>
-                <Route path='/ticket/:ticketID' element={<Ticket/>}/>
+            <Route path='/ticket/:id' element={<PrivateRoute/>}>
+                <Route path='/ticket/:id' element={<Ticket/>} />
             </Route>
   
           </Routes>
