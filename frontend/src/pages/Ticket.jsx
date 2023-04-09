@@ -1,16 +1,41 @@
 import React from 'react'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Modal from 'react-modal'
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner'
+import NoteItem from '../components/NoteItem'
 import { useSelector, useDispatch } from 'react-redux';
-import { getSingleTicket, reset, closeTicket } from '../features/tickets/ticketSlice';
+import { getSingleTicket, closeTicket } from '../features/tickets/ticketSlice';
+import { getNotes, reset as noteReset } from '../features/notes/noteSlice';
+
+
+
+
+const customStyles = {
+    content: {
+      width: '600px',
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      position: 'relative',
+    },
+}
+  
+Modal.setAppElement('#root')
 
 
 
 const Ticket = () => {
+    const { modalIsOpen, setModalIsOpen} = useState(false)
+    const { noteText, setNoteText} = useState('')
+
     const { ticket, isLoading, isError, message } = useSelector((state) => state.ticket)
+    const { notes, isLoading: noteIsLoading } = useSelector((state) => state.note)
 
     const params = useParams()
     const navigate = useNavigate()
@@ -22,6 +47,7 @@ const Ticket = () => {
         }
 
         dispatch(getSingleTicket(params.id))
+        dispatch(getNotes(params.id))
     }, [isError, message, params.id, dispatch])
 
     
@@ -34,7 +60,7 @@ const Ticket = () => {
     }
 
 
-    if(isLoading){
+    if(isLoading || noteIsLoading){
         return <Spinner />
     }
 
@@ -58,7 +84,16 @@ const Ticket = () => {
                     <h3>Descritption of Issue</h3>
                     <p>{ticket.description}</p>
                 </div>
+                <h2>notes</h2>
             </header>
+
+            {ticket.status !== 'closed' && (
+                <button className='btn'>Add note</button>
+            )}
+
+            {notes.map((note) => (
+                <NoteItem  key={note._id} note={note} />
+            ))}
 
             {ticket.status !== 'closed' && (
                 <button onClick={onTicketClose} className="btn btn-block btn-danger">Close Ticket</button>
